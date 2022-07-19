@@ -21,7 +21,27 @@
     "lib": [
       "es2020",
       "dom"
-    ]
+    ],
+    "paths": {
+      "~core/environment": [
+        "src/environments/environment"
+      ],
+      "~core/auth": [
+        "src/app/core/services/auth"
+      ],
+      "~core/local-storage": [
+        "src/app/core/services/local-storage"
+      ],
+      "~core/store": [
+        "src/app/core/services/store"
+      ],
+      "~model": [
+        "src/app/model"
+      ],
+      "~model/*": [
+        "src/app/model/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
