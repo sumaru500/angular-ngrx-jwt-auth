@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { StoreService } from '~core/store';
+import { Store } from '~core/store';
 import { AuthUser } from '~model/auth';
 import { AuthService } from './core/services/auth';
 
@@ -20,14 +20,12 @@ import { AuthService } from './core/services/auth';
 export class AppComponent implements OnInit {
   public user$? : Observable<AuthUser>;
 
-  constructor(private store: StoreService, private authService: AuthService) {
+  constructor(private store: Store, private authService: AuthService) {
   }
 
   ngOnInit(): void {
     // init observable for AuthUser
     this.user$ = this.store.select("user"); // see in state model
-    // for testing
-    this.store.update({user: {id : 'string', username: 'sumaru', email: 'string', roles : [], accessToken: 'string'}})
     console.log("App OnInit");
   }
 

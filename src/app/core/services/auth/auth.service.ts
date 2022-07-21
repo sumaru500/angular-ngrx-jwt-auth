@@ -36,4 +36,8 @@ export class AuthService {
       })
     );
   }
+
+  public getAuthUser() : AuthUser {
+    return JSON.parse(this.localStorage.getItem(USER_KEY) as string);
+  }
 }

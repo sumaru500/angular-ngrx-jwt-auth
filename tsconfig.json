@@ -26,6 +26,9 @@
       "~core/environment": [
         "src/environments/environment"
       ],
+      "~core/api": [
+        "src/app/core/services/api"
+      ],
       "~core/auth": [
         "src/app/core/services/auth"
       ],

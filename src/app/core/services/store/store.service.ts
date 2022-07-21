@@ -1,15 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { first, filter, distinctUntilChanged, map } from 'rxjs/operators';
+import { AuthService } from '~core/auth';
 
 import {State} from '~model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class StoreService {
+export class Store {
 
-  constructor() { }
+  constructor(private authService: AuthService) {
+    // init store
+    const user = authService.getAuthUser();
+    if (user) {
+      this.update({user});
+    }
+   }
 
     /* Event emitting when the state changes */
     private store = new ReplaySubject<Partial<State>>(1);

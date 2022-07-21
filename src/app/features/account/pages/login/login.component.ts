@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { StoreService } from 'src/app/core/services/store';
+import { Store } from '~core/store';
 import { AuthService, SignIn } from '~core/auth';
 
 @Component({
@@ -59,9 +59,17 @@ export class LoginComponent implements OnInit {
   public isLoading: boolean = false;
   public signin = {} as SignIn;
 
-  constructor(private authService: AuthService, private router: Router, private store : StoreService) { }
+  private returnUrl: string = "";
+
+  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute, private store : Store) {
+    // if already logged => redirect to root
+    if (this.authService.getAuthUser()) {
+      this.router.navigate(['/']);
+    }
+  }
 
   ngOnInit(): void {
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'];
   }
 
   public handleSubmit(form: NgForm) {
@@ -71,7 +79,14 @@ export class LoginComponent implements OnInit {
         finalize(() => this.isLoading = false),
         tap(data => this.store.update({user: data}))
       )
-      .subscribe(() => this.router.navigate(['account', 'profile']));
+      .subscribe(() => {
+        if (this.returnUrl) {
+          this.router.navigate([this.returnUrl])
+        }
+        else {
+          this.router.navigate(['account', 'profile'])
+        }
+      });
     }
   }
 
